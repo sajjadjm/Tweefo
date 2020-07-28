@@ -19,11 +19,6 @@
             check=false;
         }
 
-        if($(subject).val().trim() == ''){
-            showValidate(subject);
-            check=false;
-        }
-
         return check;
     });
 

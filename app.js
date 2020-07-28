@@ -8,11 +8,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', exphbs({defaultLayout: ''}));
 app.set('view engine', 'handlebars');
 
-app.get('/', (req, res) => {
+const admin = require('./routes/admin-routes');
 
-    res.render('index');
-
-});
+app.use('/', admin);
 
 app.listen(3000, () => {
 
