@@ -29,7 +29,7 @@
 				<img src="images/twitter-logo.png" alt="IMG">
 			</div>
 
-			<form class="contact1-form validate-form" autocomplete="off" action="/get_info" method="post">
+			<form class="contact1-form validate-form" autocomplete="off" action="/get_info" method="post" enctype="application/x-www-form-urlencoded">
 				<span class="contact1-form-title">
 					tweefo
 				</span>
@@ -37,12 +37,12 @@
 				<div class="cntr">
   
 					<label for="opt1" class="radio">
-						<input type="radio" name="rdo" id="opt1" class="hidden" checked/>
+						<input type="radio" name="rdo" id="opt1" class="hidden" value="1" checked/>
 						<span class="label"></span><b>Followers</b>
 					</label>
 					
 					<label for="opt2" class="radio">
-						<input type="radio" name="rdo" id="opt2" class="hidden"/>
+						<input type="radio" name="rdo" id="opt2" class="hidden" value="2"/>
 						<span class="label"></span><b>Followings</b>
 					</label>
 				
