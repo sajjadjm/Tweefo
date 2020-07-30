@@ -3,11 +3,15 @@ const qs = require('qs');
 
 const tweefo = {
 
-    GetToken: () => {
+    GetToken: (key, secret) => {
+
+        const token = Buffer.from(`${key}:${secret}`, 'utf8').toString('base64');
+
+        console.log(token);
 
         const data = qs.stringify({
 
-            'grant_type': 'client_credentials' 
+            'grant_type': 'client_credentials'
 
         });
 
@@ -15,8 +19,8 @@ const tweefo = {
 
             method: 'post',
             url: 'https://api.twitter.com/oauth2/token',
-            headers: { 
-                'Authorization': 'Basic SGlxUU1aU25ZS0dWZXlrUWN4WVdnRE1tcDpjQms1a2JnV3Y4ODZKdlhrNmx6cTlXMTdpWkcySXBUalcwNWxUSGZJa3NiblllenRqTQ==', 
+            headers: {
+                'Authorization': `Basic ${token}`, 
                 'Content-Type': 'application/x-www-form-urlencoded', 
             },
             data : data

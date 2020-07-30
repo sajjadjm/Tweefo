@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const tweefo = require('../axios/twitter-requests');
+const tweefo = require('../helpers/helpers');
 
 router.get('/', async (req, res) => {
 
@@ -12,8 +12,7 @@ router.post('/get_info', async (req, res) => {
 
     console.log(req.body);
 
-    const token = await GetToken();
-    // const result = await GetFollowings('pouya__ip', '-1', token);
+    const token = await tweefo.GetToken(req.body.key, req.body.secret);
 
     let users = new Array();
     
@@ -23,9 +22,14 @@ router.post('/get_info', async (req, res) => {
         
         while(cursor != 0)
         {
-            const result = await GetFollowers(req.body.name, cursor, token);
+            const result = await tweefo.GetFollowers(req.body.name, cursor, token);
             users = users.concat(result.users);
             cursor = result.next_cursor;
+            if(cursor == 0)
+            {
+                break;
+            }
+            // await tweefo.Sleep(60000);
         }
     }
     else if(req.body.rdo == '2')
@@ -34,62 +38,22 @@ router.post('/get_info', async (req, res) => {
         
         while(cursor != 0)
         {
-            const result = await GetFollowings(req.body.name, cursor, token);
+            const result = await tweefo.GetFollowings(req.body.name, cursor, token);
             users = users.concat(result.users);
             cursor = result.next_cursor;
+            if(cursor == 0)
+            {
+                break;
+            }
+            // await tweefo.Sleep(60000);
         }
     }
 
-    users.forEach(user => {
-        console.log(user.screen_name);
-    });
+    users = tweefo.GetUnique(users, 'screen_name');
+
+    console.log(users.length);
+    res.redirect('/');
 
 });
-
-GetToken = () => {
-
-    return new Promise((resolve, reject) => {
-
-        tweefo.GetToken().then((response) => {
-
-            resolve(response);
-
-        }).catch((err) => {
-    
-            resolve(err);
-    
-        });
-
-    });
-
-}
-
-GetFollowers = (screenName, cursor, response) => {
-    return new Promise((resolve, reject) => {
-        tweefo.GetFollowers(screenName, cursor, response.data.access_token).then((response) => {
-
-            resolve(response.data);
-
-        }).catch((err) => {
-
-            resolve(err);
-    
-        });    
-    })
-}
-
-GetFollowings = (screenName, cursor, response) => {
-    return new Promise((resolve, reject) => {
-        tweefo.GetFollowings(screenName, cursor, response.data.access_token).then((response) => {
-
-            resolve(response.data);
-
-        }).catch((err) => {
-
-            resolve(err);
-    
-        });    
-    })
-}
 
 module.exports = router;
