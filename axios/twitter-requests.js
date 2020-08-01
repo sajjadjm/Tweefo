@@ -1,4 +1,4 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 const qs = require('qs');
 
 const tweefo = {
@@ -9,61 +9,77 @@ const tweefo = {
 
         console.log(token);
 
-        const data = qs.stringify({
+        const body = qs.stringify({
 
             'grant_type': 'client_credentials'
 
         });
 
-        const config = {
+        return new Promise((resolve, reject) => {
 
-            method: 'post',
-            url: 'https://api.twitter.com/oauth2/token',
-            headers: {
-                'Authorization': `Basic ${token}`, 
-                'Content-Type': 'application/x-www-form-urlencoded', 
-            },
-            data : data
+            fetch('https://api.twitter.com/oauth2/token', {
+                method: 'post',
+                body:    body,
+                headers: {
+                    'Authorization': `Basic ${token}`, 
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                }
+            }).then(res => {
 
-        };
-        console.log(JSON.stringify(config))
-        return axios(config);
+                resolve(res.json());
 
+            }).catch(err => {
+
+                resolve(err);
+
+            });
+        });
     },
 
     GetFollowers: (screenName, cursor, token) => {
 
-        const config = {
+        return new Promise((resolve, reject) => {
 
-            method: 'get',
-            url: `https://api.twitter.com/1.1/followers/list.json?cursor=${cursor}&screen_name=${screenName}&skip_status=true&include_user_entities=false`,
-            headers: {
+            fetch(`https://api.twitter.com/1.1/followers/list.json?cursor=${cursor}&screen_name=${screenName}&skip_status=true&include_user_entities=false`, {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                
+                resolve(res.json());
+            
+            }).catch(err => {
 
-                'Authorization': `Bearer ${token}`,
+                resolve(err);
 
-            }
+            });
 
-        };
-
-        return axios(config);
-
+        });
     },
 
     GetFollowings: (screenName, cursor, token) => {
 
-        const config = {
+        return new Promise((resolve, reject) => {
 
-            method: 'get',
-            url: `https://api.twitter.com/1.1/friends/list.json?cursor=${cursor}&screen_name=${screenName}&skip_status=true&include_user_entities=false`,
-            headers: {
+            fetch(`https://api.twitter.com/1.1/friends/list.json?cursor=${cursor}&screen_name=${screenName}&skip_status=true&include_user_entities=false`, {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                
+                resolve(res.json());
 
-                'Authorization': `Bearer ${token}`,
+            }).catch(err => {
 
-            }
+                resolve(err);
 
-        };
+            });
 
-        return axios(config);
+        });
 
     }
 
