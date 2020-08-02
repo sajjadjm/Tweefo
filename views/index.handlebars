@@ -67,7 +67,7 @@
 				</div>
 
 				<div class="container-contact1-form-btn">
-					<button class="contact1-form-btn">
+					<button class="contact1-form-btn" onclick="GetInfo()">
 						<span>
 							GO
 							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
@@ -79,6 +79,25 @@
 	</div>
 
 
+	<script>
+		function GetInfo(){
+
+			$.ajax({
+				type: 'POST',
+				jsonpCallback: "callback",
+				datatype: 'jsonp',
+				data: JSON.stringify(data),
+				url: 'http://localhost:3000/get_info',
+				success: function(data) {
+					alert(data.responseText);
+				},
+				error: function (xhr, status, error){
+					alert("failure");
+				},
+			}
+
+		}
+	</script>
 
 
 <!--===============================================================================================-->

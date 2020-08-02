@@ -1,6 +1,6 @@
 var Excel = require('exceljs');
 var fs = require('fs');
-module.exports.ExportToExcel = (users, res) => {
+module.exports.ExportToExcel = (users) => {
 
         let fileName = 'export.xlsx';
 

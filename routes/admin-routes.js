@@ -23,56 +23,19 @@ router.post('/get_info', async (req, res) => {
 
     if(req.body.rdo == '1')
     {
-        let cursor = -1;
         
-        const requestLoop = setInterval( async () => {
-
-            const result = await tweefo.GetFollowers(req.body.name, cursor, token.access_token);
-            users = users.concat(result.users);
-            cursor = result.next_cursor;
-
-            if(cursor == 0)
-            {
-                users = helpers.GetUnique(users, 'screen_name');
-
-                excel.ExportToExcel(users, res).then( () => {
-
-                    res.redirect('/');
-                    console.log('hello')
-                    clearInterval(requestLoop);
-
-                });
-            }
-
-        }, 60000);
+        helpers.StartGettingFollowers(users, req.body.name, token.access_token);
+        res.redirect('/');
 
     }
     else if(req.body.rdo == '2')
     {
-        let cursor = -1;
-        
-        const requestLoop = setInterval( async () => {
-
-            const result = await tweefo.GetFollowings(req.body.name, cursor, token.access_token);
-            users = users.concat(result.users);
-            cursor = result.next_cursor;
-
-            if(cursor == 0)
-            {
-                users = helpers.GetUnique(users, 'screen_name');
-
-                excel.ExportToExcel(users, res).then( () => {
-
-                    console.log(users.length);
-                    res.redirect('/');
-                    clearInterval(requestLoop);
-
-                });
-            }
-
-        }, 60000);
+        helpers.StartGettingFollowings(users, req.body.name, token.access_token);
+        res.redirect('/');
     }
 
 });
+
+
 
 module.exports = router;

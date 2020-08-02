@@ -1,21 +1,56 @@
 const tweefo = require('../axios/twitter-requests');
+const excel = require('../helpers/excel');
 
 module.exports = {
     
-    GetUnique: (arr, comp) => {
-    
-        const unique =  arr.map(e => e[comp])
-    
-        .map((e, i, final) => final.indexOf(e) === i && i)
-    
-        .filter((e) => arr[e]).map(e => arr[e]);
-    
-        return unique;
+    StartGettingFollowers: (users, name, token) => {
+
+        let cursor = -1;
+        
+        const requestLoop = setInterval( async () => {
+
+            const result = await tweefo.GetFollowers(name, cursor, token);
+            users = users.concat(result.users);
+            cursor = result.next_cursor;
+
+            if(cursor == 0)
+            {
+                users = tweefo.GetUnique(users, 'screen_name');
+
+                excel.ExportToExcel(users).then( () => {
+
+                    clearInterval(requestLoop);
+                    alert('Your file is ready!');
+
+                });
+            }
+
+        }, 60000);
+
     },
 
-    Sleep: (ms) => {
+    StartGettingFollowings: (users, name, token) => {
 
-        return new Promise(resolve => setTimeout(resolve, ms));
+        let cursor = -1;
+        
+        const requestLoop = setInterval( async () => {
+
+            const result = await tweefo.GetFollowings(name, cursor, token);
+            users = users.concat(result.users);
+            cursor = result.next_cursor;
+
+            if(cursor == 0)
+            {
+                users = GetUnique(users, 'screen_name');
+
+                excel.ExportToExcel(users).then( () => {
+
+                    clearInterval(requestLoop);
+
+                });
+            }
+
+        }, 60000);
 
     }
 

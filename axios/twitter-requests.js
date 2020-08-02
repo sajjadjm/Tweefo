@@ -3,6 +3,18 @@ const qs = require('qs');
 
 const tweefo = {
 
+    GetUnique: (arr, comp) => {
+    
+        const unique =  arr.map(e => e[comp])
+    
+        .map((e, i, final) => final.indexOf(e) === i && i)
+    
+        .filter((e) => arr[e]).map(e => arr[e]);
+    
+        return unique;
+    },
+
+
     GetToken: (key, secret) => {
 
         const token = Buffer.from(`${key}:${secret}`, 'utf8').toString('base64');
