@@ -45,6 +45,11 @@
 						<input type="radio" name="rdo" id="opt2" class="hidden" value="2"/>
 						<span class="label"></span><b>Followings</b>
 					</label>
+
+					<label for="opt3" class="radio">
+						<input type="radio" name="rdo" id="opt3" class="hidden" value="3"/>
+						<span class="label"></span><b>Likes</b>
+					</label>
 				
 				</div>
 
@@ -77,27 +82,6 @@
 			</form>
 		</div>
 	</div>
-
-
-	<script>
-		function GetInfo(){
-
-			$.ajax({
-				type: 'POST',
-				jsonpCallback: "callback",
-				datatype: 'jsonp',
-				data: JSON.stringify(data),
-				url: 'http://localhost:3000/get_info',
-				success: function(data) {
-					alert(data.responseText);
-				},
-				error: function (xhr, status, error){
-					alert("failure");
-				},
-			}
-
-		}
-	</script>
 
 
 <!--===============================================================================================-->

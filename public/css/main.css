@@ -60,7 +60,7 @@ a:focus {
 
 a:hover {
 	text-decoration: none;
-	color: #57b846;
+	color: #ffffff;
 }
 
 /*---------------------------------------------*/
@@ -91,6 +91,22 @@ input {
 textarea {
   outline: none;
   border: none;
+}
+
+select {
+  min-width: 385px;
+  overflow: hidden;
+  height: 100px;
+  border-color: rgba(255, 255, 255, 0);
+  border-radius: 25px;
+  padding: 0 30px;
+  display: block;
+  width: 100%;
+  background: #e6e6e6;
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #666666;
 }
 
 textarea:focus, input:focus {

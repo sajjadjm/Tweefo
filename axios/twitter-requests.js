@@ -93,6 +93,30 @@ const tweefo = {
 
         });
 
+    },
+
+    GetFavorites: (screenName, token) => {
+
+        return new Promise((resolve, reject) => {
+
+            fetch(`https://api.twitter.com/1.1/favorites/list.json?count=200&screen_name=${screenName}`, {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                
+                resolve(res.json());
+
+            }).catch(err => {
+
+                resolve(err);
+
+            });
+
+        });
+
     }
 
 }

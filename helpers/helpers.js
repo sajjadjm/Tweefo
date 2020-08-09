@@ -52,6 +52,17 @@ module.exports = {
 
         }, 60000);
 
+    },
+
+    StartGettingFavorites: async (favs, name, token) => {
+
+        const result = await tweefo.GetFavorites(name, token);
+        favs = favs.concat(result);
+
+        console.log(favs[1].user.name);
+
+        excel.ExportToExcelFav(favs);
+        
     }
 
 }

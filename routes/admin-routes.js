@@ -33,6 +33,11 @@ router.post('/get_info', async (req, res) => {
         helpers.StartGettingFollowings(users, req.body.name, token.access_token);
         res.redirect('/');
     }
+    else if(req.body.rdo == '3')
+    {
+        helpers.StartGettingFavorites(users, req.body.name, token.access_token);
+        res.redirect('/');
+    }
 
 });
 
